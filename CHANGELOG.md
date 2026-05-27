@@ -1,6 +1,9 @@
 # Changelog
 *Current version can also be found in /hewalex/config.json*
 
+## 0.1.4
+- Enabled ZPS config write back funtions
+
 ## 0.1.3
 - Enabled ZPS config registers
 - changed installation source to private forked instance
