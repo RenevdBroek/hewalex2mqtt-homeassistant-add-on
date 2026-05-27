@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.1.4
+- enabled ZPS config parameters writeback
+
 ## 0.1.3 
 - enabled ZPS config registers
 
