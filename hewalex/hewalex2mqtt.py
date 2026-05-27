@@ -165,9 +165,10 @@ def on_message_mqtt(client, userdata, message):
         elif len(arr) == 3 and arr[0] == _Device_Zps_MqttTopic and arr[1] == 'Command':            
             command = arr[2]
             logger.info('Received ZPS command ' + topic + ' with payload ' + payload)
+            logger.info('Received ZPS payload ' + payload)
             writeZPSConfig(command, payload)
         else:
-            logger.info('cannot process message on topic ' + topic)
+            logger.info('cannot process message on topic ' + topic + ' with payload ' + payload)
 
     except Exception as e:
         logger.info('Exception in on_message_mqtt: '+ str(e))
