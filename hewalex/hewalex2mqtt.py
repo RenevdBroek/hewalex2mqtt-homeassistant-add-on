@@ -161,10 +161,8 @@ def on_message_mqtt(client, userdata, message):
             command = arr[2]
             logger.info('Received PCWU command ' + topic)
             writePcwuConfig(command, payload)
-        else:
-            logger.info('cannot process message on topic ' + topic)
         # ZPS Command
-        if len(arr) == 3 and arr[0] == _Device_Zps_MqttTopic and arr[1] == 'Command':            
+        elif len(arr) == 3 and arr[0] == _Device_Zps_MqttTopic and arr[1] == 'Command':            
             command = arr[2]
             logger.info('Received ZPS command ' + topic + ' with payload ' + payload)
             writeZPSConfig(command, payload)
