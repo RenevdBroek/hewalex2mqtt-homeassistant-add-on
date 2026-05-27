@@ -196,7 +196,7 @@ def device_readregisters_enqueue():
     threading.Timer(get_status_interval, device_readregisters_enqueue).start()
     if _Device_Zps_Enabled:        
         readZPS()
-        #readZPSConfig() dont care fot this ona ATM
+        readZPSConfig() 
     if _Device_Pcwu_Enabled:        
         readPCWU()
         readPcwuConfig()
@@ -210,7 +210,7 @@ def readZPS():
 def readZPSConfig():
     ser = serial.serial_for_url("socket://%s:%s" % (_Device_Zps_Address, _Device_Zps_Port))
     dev = ZPS(conHardId, conSoftId, devHardId, devSoftId, on_message_serial)        
-    dev.readStatusRegisters(ser)
+    dev.readConfigRegisters(ser)
     ser.close()
 
 def printZPSMqttTopics():
