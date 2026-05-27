@@ -136,6 +136,9 @@ def start_mqtt():
     if (_Device_Pcwu_Enabled):
         logger.info('subscribed to : ' + _Device_Pcwu_MqttTopic + '/Command/#')    
         client.subscribe(_Device_Pcwu_MqttTopic + '/Command/#', qos=1)
+    if (_Device_Zps_Enabled):
+        logger.info('subscribed to : ' + _Device_Zps_MqttTopic + '/Command/#')    
+        client.subscribe(_Device_Zps_MqttTopic + '/Command/#', qos=1)
     client.loop_start()
 
 def on_connect_mqtt(client, userdata, flags, r):
@@ -156,8 +159,15 @@ def on_message_mqtt(client, userdata, message):
         # PCWU Command 
         if len(arr) == 3 and arr[0] == _Device_Pcwu_MqttTopic and arr[1] == 'Command':            
             command = arr[2]
-            logger.info('Recieved PCWU command ' + topic)
+            logger.info('Received PCWU command ' + topic)
             writePcwuConfig(command, payload)
+        else:
+            logger.info('cannot process message on topic ' + topic)
+        # ZPS Command
+        if len(arr) == 3 and arr[0] == _Device_Zps_MqttTopic and arr[1] == 'Command':            
+            command = arr[2]
+            logger.info('Received ZPS command ' + topic)
+            writeZPSConfig(command, payload)
         else:
             logger.info('cannot process message on topic ' + topic)
 
@@ -212,6 +222,14 @@ def readZPSConfig():
     dev = ZPS(conHardId, conSoftId, devHardId, devSoftId, on_message_serial)        
     dev.readConfigRegisters(ser)
     ser.close()
+
+def writeZPSConfig(registerName, payload):    
+    ser = serial.serial_for_url("socket://%s:%s" % (_Device_Zps_Address, _Device_Zps_Port))
+    dev = ZPS(conHardId, conSoftId, devHardId, devSoftId, on_message_serial)            
+    dev.write(ser, registerName, payload)
+    ser.close()
+
+
 
 def printZPSMqttTopics():
     print('| Topic | Type | Description | ')
